@@ -5,9 +5,11 @@ import com.workshopngine.platform.workshopmanagement.workshop.domain.model.queri
 import com.workshopngine.platform.workshopmanagement.workshop.domain.services.WorkshopCommandService;
 import com.workshopngine.platform.workshopmanagement.workshop.domain.services.WorkshopQueryService;
 import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.dto.CreateWorkshopResource;
+import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.dto.UpdateWorkshopByFieldsResource;
 import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.dto.UpdateWorkshopResource;
 import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.dto.WorkshopResource;
 import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.transform.CreateWorkshopCommandFromResourceAssembler;
+import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.transform.UpdateWorkshopByFieldsCommandFromResourceAssembler;
 import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.transform.UpdateWorkshopCommandFromResourceAssembler;
 import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.transform.WorkshopResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,7 +47,7 @@ public class WorkshopController {
         return new ResponseEntity<>(getWorkshop(workshopId).getBody(), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{workshopId}")
+    @PutMapping("/{workshopId}")
     @Operation(summary = "Update a workshop", description = "Update a workshop with the given data")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Workshop updated"),
@@ -53,6 +55,19 @@ public class WorkshopController {
     })
     public ResponseEntity<WorkshopResource> updateWorkshop(@PathVariable Long workshopId, @RequestBody UpdateWorkshopResource resource){
         var command = UpdateWorkshopCommandFromResourceAssembler.toCommandFromResource(workshopId, resource);
+        var id = workshopCommandService.handle(command);
+        if (id == 0L) return ResponseEntity.badRequest().build();
+        return new ResponseEntity<>(getWorkshop(workshopId).getBody(), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{workshopId}")
+    @Operation(summary = "Update a workshop", description = "Update a workshop with the given data")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Workshop updated"),
+            @ApiResponse(responseCode = "400", description = "Invalid data")
+    })
+    public ResponseEntity<WorkshopResource> updateByFieldsWorkshop(@PathVariable Long workshopId, @RequestBody UpdateWorkshopByFieldsResource resource){
+        var command = UpdateWorkshopByFieldsCommandFromResourceAssembler.toCommandFromResource(workshopId, resource);
         var id = workshopCommandService.handle(command);
         if (id == 0L) return ResponseEntity.badRequest().build();
         return new ResponseEntity<>(getWorkshop(workshopId).getBody(), HttpStatus.OK);
