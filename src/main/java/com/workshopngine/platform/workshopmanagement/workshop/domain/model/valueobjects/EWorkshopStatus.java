@@ -1,10 +1,8 @@
 package com.workshopngine.platform.workshopmanagement.workshop.domain.model.valueobjects;
 
-public enum WorkshopStatus {
-    REGISTERED,
-    VERIFIED,
-    ACTIVE,
-    SUSPENDED,
+public enum EWorkshopStatus {
     CLOSED,
-    ARCHIVED
+    OPEN,
+    FULL_CAPACITY,
+    OUT_OF_SERVICE
 }

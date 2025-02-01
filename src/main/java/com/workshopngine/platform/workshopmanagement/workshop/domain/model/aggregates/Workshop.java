@@ -28,11 +28,11 @@ public class Workshop extends AuditableAbstractAggregateRoot<Workshop> {
     @Embedded
     private OwnerId ownerId;
 
-    private WorkshopStatus status;
+    private EWorkshopStatus status;
 
     public Workshop() {
         super();
-        this.status = WorkshopStatus.CLOSED;
+        this.status = EWorkshopStatus.CLOSED;
         this.workingSchedule = new WorkingSchedule();
     }
 
