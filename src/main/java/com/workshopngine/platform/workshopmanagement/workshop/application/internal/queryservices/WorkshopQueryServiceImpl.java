@@ -1,6 +1,8 @@
 package com.workshopngine.platform.workshopmanagement.workshop.application.internal.queryservices;
 
 import com.workshopngine.platform.workshopmanagement.workshop.domain.model.aggregates.Workshop;
+import com.workshopngine.platform.workshopmanagement.workshop.domain.model.entities.WorkingDay;
+import com.workshopngine.platform.workshopmanagement.workshop.domain.model.queries.GetAllWorkingDaysByWorkshopIdQuery;
 import com.workshopngine.platform.workshopmanagement.workshop.domain.model.queries.GetWorkshopByIdQuery;
 import com.workshopngine.platform.workshopmanagement.workshop.domain.model.queries.GetWorkshopByOwnerIdQuery;
 import com.workshopngine.platform.workshopmanagement.workshop.domain.model.valueobjects.OwnerId;
@@ -8,6 +10,8 @@ import com.workshopngine.platform.workshopmanagement.workshop.domain.services.Wo
 import com.workshopngine.platform.workshopmanagement.workshop.infrastructure.persistence.jpa.repositories.WorkshopRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,5 +31,12 @@ public class WorkshopQueryServiceImpl implements WorkshopQueryService {
     @Override
     public Optional<Workshop> handle(GetWorkshopByIdQuery query) {
         return workshopRepository.findById(query.workshopId());
+    }
+
+    @Override
+    public Collection<WorkingDay> handle(GetAllWorkingDaysByWorkshopIdQuery query) {
+        var workshop = workshopRepository.findById(query.workshopId());
+        if (workshop.isEmpty()) throw new IllegalArgumentException("Workshop with ID %s not found".formatted(query.workshopId()));
+        return workshop.get().getWorkingSchedule().getWorkingDays();
     }
 }
