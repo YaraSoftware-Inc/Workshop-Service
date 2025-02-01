@@ -6,7 +6,6 @@ public record CreateWorkshopCommand(
         WorkshopInfo information,
         Location location,
         Capacity capacity,
-        WorkingSchedule schedule,
         OwnerId ownerId)
 {
     public CreateWorkshopCommand {
@@ -18,9 +17,6 @@ public record CreateWorkshopCommand(
         }
         if (capacity == null) {
             throw new IllegalArgumentException("Capacity must not be null");
-        }
-        if (schedule == null) {
-            throw new IllegalArgumentException("Schedule must not be null");
         }
         if (ownerId == null) {
             throw new IllegalArgumentException("Owner id must not be null");

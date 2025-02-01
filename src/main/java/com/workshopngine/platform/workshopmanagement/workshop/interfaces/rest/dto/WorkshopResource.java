@@ -1,8 +1,5 @@
 package com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.dto;
 
-import java.time.LocalTime;
-import java.util.Collection;
-
 public record WorkshopResource(
     Long id,
     String name,
@@ -14,9 +11,6 @@ public record WorkshopResource(
     String country,
     Integer maxCapacityVehicle,
     Integer maxCapacityMechanic,
-    LocalTime openTime,
-    LocalTime closeTime,
-    Collection<String> workingDays,
     Long ownerId,
     String status
 ) {
