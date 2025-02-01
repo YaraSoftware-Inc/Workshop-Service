@@ -3,6 +3,7 @@ package com.workshopngine.platform.workshopmanagement.workshop.application.inter
 import com.workshopngine.platform.workshopmanagement.workshop.domain.model.aggregates.Workshop;
 import com.workshopngine.platform.workshopmanagement.workshop.domain.model.commands.CreateWorkingDayCommand;
 import com.workshopngine.platform.workshopmanagement.workshop.domain.model.commands.CreateWorkshopCommand;
+import com.workshopngine.platform.workshopmanagement.workshop.domain.model.commands.UpdateWorkshopByFieldsCommand;
 import com.workshopngine.platform.workshopmanagement.workshop.domain.model.commands.UpdateWorkshopCommand;
 import com.workshopngine.platform.workshopmanagement.workshop.domain.model.entities.WorkingDay;
 import com.workshopngine.platform.workshopmanagement.workshop.domain.services.WorkshopCommandService;
@@ -32,14 +33,28 @@ public class WorkshopCommandServiceImpl implements WorkshopCommandService {
 
     @Override
     public Long handle(UpdateWorkshopCommand command) {
-        var workshop = workshopRepository.findById(command.workshopId()).orElseThrow();
+        var workshop = workshopRepository.findById(command.workshopId());
+        if (workshop.isEmpty()) throw new IllegalArgumentException("Workshop with ID %s not found".formatted(command.workshopId()));
         try {
-            workshop.update(command);
-            workshopRepository.save(workshop);
+            workshop.get().update(command);
+            workshopRepository.save(workshop.get());
         } catch (Exception e) {
             throw new IllegalArgumentException("Error while updating workshop: " + e.getMessage());
         }
-        return workshop.getId();
+        return workshop.get().getId();
+    }
+
+    @Override
+    public Long handle(UpdateWorkshopByFieldsCommand command) {
+        var workshop = workshopRepository.findById(command.workshopId());
+        if (workshop.isEmpty()) throw new IllegalArgumentException("Workshop with ID %s not found".formatted(command.workshopId()));
+        try {
+            workshop.get().updateByField(command);
+            workshopRepository.save(workshop.get());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error while updating workshop by fields: " + e.getMessage());
+        }
+        return workshop.get().getId();
     }
 
     @Override

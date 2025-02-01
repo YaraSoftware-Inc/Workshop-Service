@@ -2,6 +2,7 @@ package com.workshopngine.platform.workshopmanagement.workshop.domain.model.aggr
 
 import com.workshopngine.platform.workshopmanagement.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import com.workshopngine.platform.workshopmanagement.workshop.domain.model.commands.CreateWorkshopCommand;
+import com.workshopngine.platform.workshopmanagement.workshop.domain.model.commands.UpdateWorkshopByFieldsCommand;
 import com.workshopngine.platform.workshopmanagement.workshop.domain.model.commands.UpdateWorkshopCommand;
 import com.workshopngine.platform.workshopmanagement.workshop.domain.model.valueobjects.*;
 import jakarta.persistence.Embedded;
@@ -48,5 +49,22 @@ public class Workshop extends AuditableAbstractAggregateRoot<Workshop> {
         this.information = command.information();
         this.location = command.location();
         this.capacity = command.capacity();
+    }
+
+    public void updateByField(UpdateWorkshopByFieldsCommand command) {
+        if (command.status().equals(EWorkshopStatus.OPEN)) {
+            this.open();
+        }
+        if (command.status().equals(EWorkshopStatus.CLOSED)) {
+            this.close();
+        }
+    }
+
+    public void open() {
+        this.status = EWorkshopStatus.OPEN;
+    }
+
+    public void close() {
+        this.status = EWorkshopStatus.CLOSED;
     }
 }
