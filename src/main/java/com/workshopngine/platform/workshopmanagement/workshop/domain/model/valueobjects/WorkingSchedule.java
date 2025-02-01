@@ -1,35 +1,31 @@
 package com.workshopngine.platform.workshopmanagement.workshop.domain.model.valueobjects;
 
-import com.workshopngine.platform.workshopmanagement.workshop.domain.model.entities.Day;
+import com.workshopngine.platform.workshopmanagement.workshop.domain.model.aggregates.Workshop;
+import com.workshopngine.platform.workshopmanagement.workshop.domain.model.commands.CreateWorkingDayCommand;
+import com.workshopngine.platform.workshopmanagement.workshop.domain.model.entities.WorkingDay;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Embeddable
 @Getter
 @Setter
 public class WorkingSchedule {
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Day> workingDays;
-
-    @NotNull
-    private LocalTime openTime;
-
-    @NotNull
-    private LocalTime closeTime;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "workshop")
+    private Collection<WorkingDay> workingDays;
 
     public WorkingSchedule() {
+        this.workingDays = new ArrayList<>();
     }
 
-    public WorkingSchedule(Collection<String> workingDays, LocalTime openTime, LocalTime closeTime) {
-        this.openTime = openTime;
-        this.closeTime = closeTime;
-        this.workingDays = workingDays.stream().map(Day::new).toList();
+    public WorkingDay addWorkingDay(Workshop workshop, CreateWorkingDayCommand command) {
+        var newWorkingDay = new WorkingDay(workshop, command);
+        this.workingDays.add(newWorkingDay);
+        return newWorkingDay;
     }
 }

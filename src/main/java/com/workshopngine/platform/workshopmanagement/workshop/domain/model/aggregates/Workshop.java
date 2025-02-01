@@ -20,7 +20,7 @@ public class Workshop extends AuditableAbstractAggregateRoot<Workshop> {
     private Location location;
 
     @Embedded
-    private WorkingSchedule schedule;
+    private WorkingSchedule workingSchedule;
 
     @Embedded
     private Capacity capacity;
@@ -32,14 +32,14 @@ public class Workshop extends AuditableAbstractAggregateRoot<Workshop> {
 
     public Workshop() {
         super();
-        this.status = WorkshopStatus.REGISTERED;
+        this.status = WorkshopStatus.CLOSED;
+        this.workingSchedule = new WorkingSchedule();
     }
 
     public Workshop(CreateWorkshopCommand command){
         this();
         this.information = command.information();
         this.location = command.location();
-        this.schedule = command.schedule();
         this.capacity = command.capacity();
         this.ownerId = command.ownerId();
     }
@@ -47,7 +47,6 @@ public class Workshop extends AuditableAbstractAggregateRoot<Workshop> {
     public void update(UpdateWorkshopCommand command) {
         this.information = command.information();
         this.location = command.location();
-        this.schedule = command.schedule();
         this.capacity = command.capacity();
     }
 }
