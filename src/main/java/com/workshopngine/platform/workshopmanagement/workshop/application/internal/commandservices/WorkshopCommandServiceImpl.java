@@ -21,7 +21,7 @@ public class WorkshopCommandServiceImpl implements WorkshopCommandService {
     }
 
     @Override
-    public Long handle(CreateWorkshopCommand command) {
+    public String handle(CreateWorkshopCommand command) {
         var newWorkshop = new Workshop(command);
         try {
             workshopRepository.save(newWorkshop);
@@ -32,7 +32,7 @@ public class WorkshopCommandServiceImpl implements WorkshopCommandService {
     }
 
     @Override
-    public Long handle(UpdateWorkshopCommand command) {
+    public String handle(UpdateWorkshopCommand command) {
         var workshop = workshopRepository.findById(command.workshopId());
         if (workshop.isEmpty()) throw new IllegalArgumentException("Workshop with ID %s not found".formatted(command.workshopId()));
         try {
@@ -45,7 +45,7 @@ public class WorkshopCommandServiceImpl implements WorkshopCommandService {
     }
 
     @Override
-    public Long handle(UpdateWorkshopByFieldsCommand command) {
+    public String handle(UpdateWorkshopByFieldsCommand command) {
         var workshop = workshopRepository.findById(command.workshopId());
         if (workshop.isEmpty()) throw new IllegalArgumentException("Workshop with ID %s not found".formatted(command.workshopId()));
         try {

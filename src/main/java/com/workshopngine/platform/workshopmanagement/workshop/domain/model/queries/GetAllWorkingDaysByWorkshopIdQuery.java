@@ -1,9 +1,9 @@
 package com.workshopngine.platform.workshopmanagement.workshop.domain.model.queries;
 
-public record GetAllWorkingDaysByWorkshopIdQuery(Long workshopId) {
+public record GetAllWorkingDaysByWorkshopIdQuery(String workshopId) {
     public GetAllWorkingDaysByWorkshopIdQuery {
-        if (workshopId == null || workshopId <= 0) {
-            throw new IllegalArgumentException("WorkshopId must be a positive number");
+        if (workshopId == null || workshopId.isBlank()) {
+            throw new IllegalArgumentException("workshopId cannot be null or empty");
         }
     }
 }

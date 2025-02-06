@@ -5,7 +5,7 @@ import com.workshopngine.platform.workshopmanagement.workshop.domain.model.value
 import java.time.LocalTime;
 
 public record CreateWorkingDayCommand(
-        Long workshopId,
+        String workshopId,
         EDay day,
         LocalTime openTime,
         LocalTime closeTime

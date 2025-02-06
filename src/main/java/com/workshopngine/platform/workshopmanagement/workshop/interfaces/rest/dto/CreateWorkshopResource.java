@@ -10,6 +10,6 @@ public record CreateWorkshopResource(
     String country,
     Integer maxCapacityVehicle,
     Integer maxCapacityMechanic,
-    Long ownerId
+    String ownerId
 ) {
 }

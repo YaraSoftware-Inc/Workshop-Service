@@ -1,7 +1,7 @@
 package com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.dto;
 
 public record WorkshopResource(
-    Long id,
+    String  id,
     String name,
     String description,
     String address,
@@ -11,7 +11,7 @@ public record WorkshopResource(
     String country,
     Integer maxCapacityVehicle,
     Integer maxCapacityMechanic,
-    Long ownerId,
+    String ownerId,
     String status
 ) {
 }

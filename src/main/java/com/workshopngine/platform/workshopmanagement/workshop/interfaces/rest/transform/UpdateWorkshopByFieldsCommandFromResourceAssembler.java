@@ -5,7 +5,7 @@ import com.workshopngine.platform.workshopmanagement.workshop.domain.model.value
 import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.dto.UpdateWorkshopByFieldsResource;
 
 public class UpdateWorkshopByFieldsCommandFromResourceAssembler {
-    public static UpdateWorkshopByFieldsCommand toCommandFromResource(Long workshopId, UpdateWorkshopByFieldsResource resource) {
+    public static UpdateWorkshopByFieldsCommand toCommandFromResource(String workshopId, UpdateWorkshopByFieldsResource resource) {
         return new UpdateWorkshopByFieldsCommand(
                 workshopId,
                 EWorkshopStatus.fromString(resource.status())

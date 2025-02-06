@@ -9,8 +9,8 @@ import com.workshopngine.platform.workshopmanagement.workshop.domain.model.entit
 import java.util.Optional;
 
 public interface WorkshopCommandService {
-    Long handle(CreateWorkshopCommand command);
-    Long handle(UpdateWorkshopCommand command);
-    Long handle(UpdateWorkshopByFieldsCommand command);
+    String handle(CreateWorkshopCommand command);
+    String handle(UpdateWorkshopCommand command);
+    String handle(UpdateWorkshopByFieldsCommand command);
     Optional<WorkingDay> handle(CreateWorkingDayCommand command);
 }

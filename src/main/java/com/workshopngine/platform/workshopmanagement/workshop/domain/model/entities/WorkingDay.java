@@ -16,8 +16,8 @@ import java.time.LocalTime;
 @Setter
 public class WorkingDay extends AuditableModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @ManyToOne
     @JoinColumn(name = "workshop_id", nullable = false)

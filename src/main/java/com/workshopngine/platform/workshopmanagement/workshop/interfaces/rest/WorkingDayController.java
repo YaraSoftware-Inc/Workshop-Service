@@ -34,7 +34,7 @@ public class WorkingDayController {
             @ApiResponse(responseCode = "201", description = "Working day created"),
             @ApiResponse(responseCode = "400", description = "Invalid data")
     })
-    public ResponseEntity<WorkingDayResource> createWorkingDay(@PathVariable Long workshopId, @RequestBody CreateWorkingDayResource resource){
+    public ResponseEntity<WorkingDayResource> createWorkingDay(@PathVariable String workshopId, @RequestBody CreateWorkingDayResource resource){
         var command = CreateWorkingDayCommandFromResourceAssembler.toCommandFromResource(workshopId, resource);
         var workingDay = workshopCommandService.handle(command);
         if (workingDay.isEmpty()) return ResponseEntity.badRequest().build();
@@ -48,7 +48,7 @@ public class WorkingDayController {
             @ApiResponse(responseCode = "200", description = "Working days found"),
             @ApiResponse(responseCode = "404", description = "No working days found")
     })
-    public ResponseEntity<Collection<WorkingDayResource>> getWorkingDays(@PathVariable Long workshopId){
+    public ResponseEntity<Collection<WorkingDayResource>> getWorkingDays(@PathVariable String workshopId){
         var query = new GetAllWorkingDaysByWorkshopIdQuery(workshopId);
         var workingDays = workshopQueryService.handle(query);
         var workingDayResources = workingDays.stream()

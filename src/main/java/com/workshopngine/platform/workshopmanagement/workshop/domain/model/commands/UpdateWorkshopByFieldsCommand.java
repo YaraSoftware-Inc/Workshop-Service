@@ -3,7 +3,7 @@ package com.workshopngine.platform.workshopmanagement.workshop.domain.model.comm
 import com.workshopngine.platform.workshopmanagement.workshop.domain.model.valueobjects.EWorkshopStatus;
 
 public record UpdateWorkshopByFieldsCommand(
-        Long workshopId,
+        String workshopId,
         EWorkshopStatus status
 ) {
 }

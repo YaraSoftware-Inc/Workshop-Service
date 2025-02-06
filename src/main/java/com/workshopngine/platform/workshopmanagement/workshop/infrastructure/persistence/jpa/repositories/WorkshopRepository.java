@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface WorkshopRepository extends JpaRepository<Workshop, Long> {
+public interface WorkshopRepository extends JpaRepository<Workshop, String> {
     Optional<Workshop> findByOwnerId(OwnerId ownerId);
 }

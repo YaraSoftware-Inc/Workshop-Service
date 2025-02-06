@@ -43,7 +43,7 @@ public class WorkshopController {
     public ResponseEntity<WorkshopResource> createWorkshop(@RequestBody CreateWorkshopResource resource){
         var command = CreateWorkshopCommandFromResourceAssembler.toCommandFromResource(resource);
         var workshopId = workshopCommandService.handle(command);
-        if (workshopId == 0L) return ResponseEntity.badRequest().build();
+        if (workshopId.isBlank()) return ResponseEntity.badRequest().build();
         return new ResponseEntity<>(getWorkshop(workshopId).getBody(), HttpStatus.CREATED);
     }
 
@@ -53,10 +53,10 @@ public class WorkshopController {
             @ApiResponse(responseCode = "200", description = "Workshop updated"),
             @ApiResponse(responseCode = "400", description = "Invalid data")
     })
-    public ResponseEntity<WorkshopResource> updateWorkshop(@PathVariable Long workshopId, @RequestBody UpdateWorkshopResource resource){
+    public ResponseEntity<WorkshopResource> updateWorkshop(@PathVariable String workshopId, @RequestBody UpdateWorkshopResource resource){
         var command = UpdateWorkshopCommandFromResourceAssembler.toCommandFromResource(workshopId, resource);
         var id = workshopCommandService.handle(command);
-        if (id == 0L) return ResponseEntity.badRequest().build();
+        if (id.isBlank()) return ResponseEntity.badRequest().build();
         return new ResponseEntity<>(getWorkshop(workshopId).getBody(), HttpStatus.OK);
     }
 
@@ -66,10 +66,10 @@ public class WorkshopController {
             @ApiResponse(responseCode = "200", description = "Workshop updated"),
             @ApiResponse(responseCode = "400", description = "Invalid data")
     })
-    public ResponseEntity<WorkshopResource> updateByFieldsWorkshop(@PathVariable Long workshopId, @RequestBody UpdateWorkshopByFieldsResource resource){
+    public ResponseEntity<WorkshopResource> updateByFieldsWorkshop(@PathVariable String workshopId, @RequestBody UpdateWorkshopByFieldsResource resource){
         var command = UpdateWorkshopByFieldsCommandFromResourceAssembler.toCommandFromResource(workshopId, resource);
         var id = workshopCommandService.handle(command);
-        if (id == 0L) return ResponseEntity.badRequest().build();
+        if (id.isBlank()) return ResponseEntity.badRequest().build();
         return new ResponseEntity<>(getWorkshop(workshopId).getBody(), HttpStatus.OK);
     }
 
@@ -79,7 +79,7 @@ public class WorkshopController {
             @ApiResponse(responseCode = "200", description = "Workshop found"),
             @ApiResponse(responseCode = "404", description = "Workshop not found")
     })
-    public ResponseEntity<WorkshopResource> getWorkshop(@PathVariable Long workshopId){
+    public ResponseEntity<WorkshopResource> getWorkshop(@PathVariable String workshopId){
         var query = new GetWorkshopByIdQuery(workshopId);
         var workshop = workshopQueryService.handle(query);
         if (workshop.isEmpty()) return ResponseEntity.notFound().build();
@@ -93,7 +93,7 @@ public class WorkshopController {
             @ApiResponse(responseCode = "200", description = "Workshop found"),
             @ApiResponse(responseCode = "404", description = "Workshop not found")
     })
-    public ResponseEntity<WorkshopResource> getWorkshopByOwnerID(@RequestParam Long ownerId){
+    public ResponseEntity<WorkshopResource> getWorkshopByOwnerID(@RequestParam String ownerId){
         var query = new GetWorkshopByOwnerIdQuery(ownerId);
         var workshop = workshopQueryService.handle(query);
         if (workshop.isEmpty()) return ResponseEntity.notFound().build();

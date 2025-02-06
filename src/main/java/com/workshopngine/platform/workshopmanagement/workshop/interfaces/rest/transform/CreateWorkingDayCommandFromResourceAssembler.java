@@ -5,7 +5,7 @@ import com.workshopngine.platform.workshopmanagement.workshop.domain.model.value
 import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.dto.CreateWorkingDayResource;
 
 public class CreateWorkingDayCommandFromResourceAssembler {
-    public static CreateWorkingDayCommand toCommandFromResource(Long workshopId, CreateWorkingDayResource resource) {
+    public static CreateWorkingDayCommand toCommandFromResource(String workshopId, CreateWorkingDayResource resource) {
         return new CreateWorkingDayCommand(
             workshopId,
             EDay.fromString(resource.day()),

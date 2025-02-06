@@ -3,11 +3,11 @@ package com.workshopngine.platform.workshopmanagement.workshop.domain.model.valu
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public record OwnerId(Long ownerId) {
+public record OwnerId(String ownerId) {
     public OwnerId() {this(null);}
     public OwnerId {
-        if (ownerId == null || ownerId <= 0) {
-            throw new IllegalArgumentException("Owner ID cannot be null or less than or equal to 0");
+        if (ownerId == null || ownerId.isBlank()) {
+            throw new IllegalArgumentException("Owner id cannot be null or empty");
         }
     }
 }
