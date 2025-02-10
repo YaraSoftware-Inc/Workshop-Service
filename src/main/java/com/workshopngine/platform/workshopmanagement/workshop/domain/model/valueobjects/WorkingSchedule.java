@@ -9,6 +9,7 @@ import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -27,5 +28,11 @@ public class WorkingSchedule {
         var newWorkingDay = new WorkingDay(workshop, command);
         this.workingDays.add(newWorkingDay);
         return newWorkingDay;
+    }
+
+    public Boolean isAvailableAtRequestedTime(LocalDateTime requestedTime) {
+        WorkingDay requestedWorkingDay = this.workingDays.stream().filter(day -> day.isWithinEstablishedRangeOfDays(requestedTime)).findFirst().orElse(null);
+        if (requestedWorkingDay == null) return false;
+        return requestedWorkingDay.isWithinEstablishedTimeRange(requestedTime);
     }
 }

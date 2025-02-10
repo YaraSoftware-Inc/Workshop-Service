@@ -9,6 +9,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -44,5 +46,14 @@ public class WorkingDay extends AuditableModel {
         this.day = command.day();
         this.openTime = command.openTime();
         this.closeTime = command.closeTime();
+    }
+
+    public Boolean isWithinEstablishedRangeOfDays(LocalDateTime requestedTime) {
+        DayOfWeek requestedDate = requestedTime.toLocalDate().getDayOfWeek();
+        return this.day.equals(EDay.valueOf(requestedDate.name()));
+    }
+
+    public Boolean isWithinEstablishedTimeRange(LocalDateTime requestedTime) {
+        return requestedTime.toLocalTime().isAfter(this.openTime) && requestedTime.toLocalTime().isBefore(this.closeTime);
     }
 }
