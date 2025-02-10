@@ -2,16 +2,11 @@ package com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest;
 
 import com.workshopngine.platform.workshopmanagement.workshop.domain.model.queries.GetWorkshopByIdQuery;
 import com.workshopngine.platform.workshopmanagement.workshop.domain.model.queries.GetWorkshopByOwnerIdQuery;
+import com.workshopngine.platform.workshopmanagement.workshop.domain.model.queries.IsAvailableWorkshopByIdAndRequestedTimeQuery;
 import com.workshopngine.platform.workshopmanagement.workshop.domain.services.WorkshopCommandService;
 import com.workshopngine.platform.workshopmanagement.workshop.domain.services.WorkshopQueryService;
-import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.dto.CreateWorkshopResource;
-import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.dto.UpdateWorkshopByFieldsResource;
-import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.dto.UpdateWorkshopResource;
-import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.dto.WorkshopResource;
-import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.transform.CreateWorkshopCommandFromResourceAssembler;
-import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.transform.UpdateWorkshopByFieldsCommandFromResourceAssembler;
-import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.transform.UpdateWorkshopCommandFromResourceAssembler;
-import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.transform.WorkshopResourceFromEntityAssembler;
+import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.dto.*;
+import com.workshopngine.platform.workshopmanagement.workshop.interfaces.rest.transform.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -19,6 +14,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -99,5 +96,18 @@ public class WorkshopController {
         if (workshop.isEmpty()) return ResponseEntity.notFound().build();
         var workshopResource = WorkshopResourceFromEntityAssembler.toResourceFromEntity(workshop.get());
         return new ResponseEntity<>(workshopResource, HttpStatus.OK);
+    }
+
+    @GetMapping("/{workshopId}/availability")
+    @Operation(summary = "Check availability of the workshop?", description = "Check if the workshop is available")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Workshop has been checked successfully"),
+            @ApiResponse(responseCode = "404", description = "Workshop not found")
+    })
+    public ResponseEntity<WorkshopAvailabilityResource> isWorkshopAvailable(@PathVariable String workshopId, @RequestParam LocalDateTime requestedTime){
+        var query = new IsAvailableWorkshopByIdAndRequestedTimeQuery(workshopId, requestedTime);
+        var isAvailable = workshopQueryService.handle(query);
+        var workshopAvailabilityResource = WorkshopAvailableResourceFromEntityAssembler.toResourceFromEntity(workshopId, isAvailable);
+        return new ResponseEntity<>(workshopAvailabilityResource, HttpStatus.OK);
     }
 }
