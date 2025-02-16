@@ -229,7 +229,7 @@ class WorkshopIntegrationTest {
                 "country",
                 10,
                 10,
-                "1000"
+                "c78f013e-1f65-407d-8c7b-e6a75642d451"
         );
         ResponseEntity<WorkshopResource> createWorkshopResponse = testRestTemplate.exchange(
                 "/workshops",
@@ -252,15 +252,15 @@ class WorkshopIntegrationTest {
         // Then
         Assertions.assertThat(getWorkshopResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         Assertions.assertThat(getWorkshopResponse.getBody()).isNotNull();
-        Assertions.assertThat(getWorkshopResponse.getBody().name()).isEqualTo("name");
-        Assertions.assertThat(getWorkshopResponse.getBody().description()).isEqualTo("description");
-        Assertions.assertThat(getWorkshopResponse.getBody().address()).isEqualTo("address");
-        Assertions.assertThat(getWorkshopResponse.getBody().city()).isEqualTo("city");
-        Assertions.assertThat(getWorkshopResponse.getBody().zipCode()).isEqualTo("zip code");
-        Assertions.assertThat(getWorkshopResponse.getBody().country()).isEqualTo("country");
-        Assertions.assertThat(getWorkshopResponse.getBody().street()).isEqualTo("street");
-        Assertions.assertThat(getWorkshopResponse.getBody().maxCapacityVehicle()).isEqualTo(10);
-        Assertions.assertThat(getWorkshopResponse.getBody().maxCapacityMechanic()).isEqualTo(10);
+        Assertions.assertThat(getWorkshopResponse.getBody().name()).isEqualTo(createWorkshopResource.name());
+        Assertions.assertThat(getWorkshopResponse.getBody().description()).isEqualTo(createWorkshopResource.description());
+        Assertions.assertThat(getWorkshopResponse.getBody().address()).isEqualTo(createWorkshopResource.address());
+        Assertions.assertThat(getWorkshopResponse.getBody().city()).isEqualTo(createWorkshopResource.city());
+        Assertions.assertThat(getWorkshopResponse.getBody().zipCode()).isEqualTo(createWorkshopResource.zipCode());
+        Assertions.assertThat(getWorkshopResponse.getBody().country()).isEqualTo(createWorkshopResource.country());
+        Assertions.assertThat(getWorkshopResponse.getBody().street()).isEqualTo(createWorkshopResource.street());
+        Assertions.assertThat(getWorkshopResponse.getBody().maxCapacityVehicle()).isEqualTo(createWorkshopResource.maxCapacityVehicle());
+        Assertions.assertThat(getWorkshopResponse.getBody().maxCapacityMechanic()).isEqualTo(createWorkshopResource.maxCapacityMechanic());
         Assertions.assertThat(getWorkshopResponse.getBody().status()).isEqualTo("CLOSED");
         Assertions.assertThat(getWorkshopResponse.getBody().ownerId()).isEqualTo(ownerId);
     }
