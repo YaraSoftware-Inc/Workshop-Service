@@ -2,6 +2,8 @@ name: Testing Workflow
 on:
   push:
     branches:
+      - develop
+      - release
       - feature/*
       - bugfix/*
       - hotfix/*
