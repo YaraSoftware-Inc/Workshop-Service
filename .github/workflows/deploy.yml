@@ -2,9 +2,8 @@ name: Deployment Workflow
 
 on:
   pull_request:
-    branches:
-      branches: [ main ]
-      types: [ opened, synchronize, closed ]
+    branches: [ main ]
+    types: [ opened, synchronize, closed ]
 jobs:
   test-and-build:
     name: Build & Test (Pre-Merge)
