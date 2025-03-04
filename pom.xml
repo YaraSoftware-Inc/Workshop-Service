@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.workshop-n-gine.platform</groupId>
 	<artifactId>workshop-management</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.1.0</version>
 	<name>workshop-management</name>
 	<description>workshop-management</description>
 	<url/>
@@ -126,14 +126,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
