@@ -3,14 +3,13 @@ on:
   push:
     branches:
       - develop
-      - release
+      - release/*
       - feature/*
-      - bugfix/*
       - hotfix/*
   pull_request:
     branches:
       - develop
-      - release
+      - release/*
 jobs:
   test:
     name: Test
@@ -19,11 +18,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup JDK 22
+      - name: Setup JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '22-ea'
+          java-version: '21'
           cache: 'maven'
 
       - name: Integration and Unit tests
